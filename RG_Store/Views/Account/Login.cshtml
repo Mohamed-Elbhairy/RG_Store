@@ -1,0 +1,108 @@
+﻿﻿@using RG_Store.BLL.ModelVM.UserVM
+@model LoginVM
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="toast-container position-fixed p-3" style="top: 0; left: 0; z-index: 1050;">
+        <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body">
+                    @TempData["SuccessMessage"]
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            var toastEl = document.getElementById('successToast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        };
+    </script>
+}
+
+
+
+<div class="container-fluid bg-dark text-light min-vh-100 d-flex justify-content-center align-items-center">
+    <div class="row mx-0 w-100" style="max-width: 950px;">
+        <!-- Left Column -->
+        <div class="col-md-6 border-end-md border-light p-4 p-sm-5 d-flex flex-column justify-content-center align-items-center">
+            <img class="d-block mx-auto" src="~/images/signin-dark.svg" width="344" alt="Illustration">
+            <div class="text-light mt-sm-4 pt-md-3 text-center">
+                <span class="opacity-60">Don't have an account?</span>
+                <a asp-action="SignUp" asp-controller="Account" class="btn btn-link p-0">Sign Up</a>
+
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-6 px-4 pt-2 pb-4 px-sm-5 pb-sm-5 pt-md-5">
+            <a class="btn btn-outline-info w-100 mb-3" href="#">
+                <i class="fi-google fs-lg me-1"></i> Sign in with Google
+            </a>
+            <a class="btn btn-outline-info w-100 mb-3" href="#">
+                <i class="fi-facebook fs-lg me-1"></i> Sign in with Facebook
+            </a>
+            <div class="d-flex align-items-center py-3 mb-3">
+                <hr class="hr-light w-100">
+                <div class="text-light opacity-70 px-3">Or</div>
+                <hr class="hr-light w-100">
+            </div>
+
+            <!-- Sign In Form -->
+            <form class="needs-validation" novalidate asp-action="Login" asp-controller="Account">
+                <!-- Email -->
+                <div class="mb-4">
+                    <label class="form-label text-light mb-2" for="signin-email">Email address</label>
+                    <input asp-for="Email" class="form-control form-control-light" type="email" id="signin-email" name="email" placeholder="Enter your email" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid email address.
+                    </div>
+                </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+
+                <!-- Password -->
+                <div class="mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <label class="form-label text-light mb-0" for="signin-password">Password</label>
+                        <a class="fs-sm text-light" href="/Account/ForgotPassword">Forgot password?</a>
+                    </div>
+                    <div class="password-toggle input-group">
+                        <input asp-for="Password" class="form-control form-control-light" type="password" id="signin-password" name="password" placeholder="Enter password" required>
+                        <span class="input-group-text bg-dark text-light">
+                            <i class="fas fa-eye password-toggle-icon" style="cursor:pointer;"></i>
+                        </span>
+                        <div class="invalid-feedback">
+                            Please provide a password.
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <button class="btn btn-primary btn-lg w-100" type="submit">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle password visibility
+    document.querySelectorAll('.password-toggle-icon').forEach(icon => {
+        icon.addEventListener('click', function () {
+            const passwordField = this.closest('.password-toggle').querySelector('input');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            // Toggle the eye icon
+            if (type === 'password') {
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            } else {
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            }
+        });
+    });
+</script>
