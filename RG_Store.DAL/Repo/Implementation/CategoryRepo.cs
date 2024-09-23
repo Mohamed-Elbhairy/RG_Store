@@ -28,6 +28,7 @@ namespace RG_Store.DAL.Repo.Implementation
         public Task<bool> Delete(Category category)
         {
             throw new NotImplementedException();
+
         }
 
         public async Task<IEnumerable<Category>> GetAll()
