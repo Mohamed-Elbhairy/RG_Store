@@ -20,37 +20,41 @@ namespace RG_Store.BLL.Service.Implementation
         public bool Create(AddCategoryVM CategoryVM)
         {
             var Result = mapper.Map<Category>(CategoryVM);
-            return categoryRepo.Create(Result);
+            return true;
+
         }
 
         public bool Delete(DeleteCategoryVM CategoryVM)
         {
             var Result = mapper.Map<Category>(CategoryVM);
-            return categoryRepo.Delete(Result);
+            return true;
+         /*   return categoryRepo.Delete(Result);*/
         }
 
         public GetCategoryVM Get(int id)
         {
             var Item = categoryRepo.GetById(id);
             var Result = mapper.Map<GetCategoryVM>(Item);
+
             return Result;
         }
 
-        public IEnumerable<GetCategoryVM> GetAll()
+        public  IEnumerable<GetCategoryVM> GetAll()
         {
-            var List = categoryRepo.GetAll().ToList();
             List<GetCategoryVM> Result = new();
+          /*  var List = await categoryRepo.GetAll();
             foreach (var item in List)
             {
                 var temp = mapper.Map<GetCategoryVM>(item);
                 Result.Add(temp);
             }
-            return Result;
+          */  return Result;
         }
         public bool Update(UpdateCategoryVM CategoryVM)
         {
             var Result = mapper.Map<Category>(CategoryVM);
-            return categoryRepo.Update(Result);
+            return true;
+         /*   return categoryRepo.Update(Result);*/
         }
     }
 }

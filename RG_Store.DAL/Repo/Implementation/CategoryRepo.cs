@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using RG_Store.DAL.DB;
 using RG_Store.DAL.Entities;
 using RG_Store.DAL.Repo.Abstraction;
@@ -14,92 +15,48 @@ namespace RG_Store.DAL.Repo.Implementation
             this.context = context;
         }
 
-        public bool Create(Category category)
+        public Task<bool> AddToCategory(Item category, int id)
         {
-            try
-            {
-                context.Categories.Add(category);
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public bool Delete(Category category)
-        {
-
-            try
-            {
-                var cat = GetById(category.Id);
-                cat.IsDeleted = !cat.IsDeleted;
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<Item> GetAllItems(int id)
+        public Task<bool> Create(Category category)
         {
-            var Cat = GetById(id);
-            var Items = Cat.Items.ToList();
-            return Items;
-        }
-        public IEnumerable<Category> GetAll() => context.Categories.ToList();
-
-        public Category GetById(int id) => context.Categories.Where(c => c.Id == id).FirstOrDefault();
-
-
-        public bool Update(Category category)
-        {
-            try
-            {
-                var cat = GetById(category.Id);
-                cat.Name = category.Name;
-                cat.Description = category.Description;
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            throw new NotImplementedException();
         }
 
-        public bool AddToCategory(Item item, int id)
+        public Task<bool> Delete(Category category)
         {
-            try
-            {
-                var CategoryItems = GetAllItems(id).ToList();
-                CategoryItems.Add(item);
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            throw new NotImplementedException();
         }
 
-        public bool RemoveFromCategory(Item item, int id)
+        public async Task<IEnumerable<Category>> GetAll()
         {
+            return await context.Categories.ToListAsync();
+        }
 
-            try
-            {
-                var CategoryItems = GetAllItems(id).ToList();
-                var itemToRemove = CategoryItems.FirstOrDefault(i => i.Id == item.Id);
-                CategoryItems.Remove(itemToRemove);
-                context.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+        public async Task<IEnumerable<Item>> GetAllItems(int id)
+        {
+            var items = await context.CategoryItems
+                .Include(i => i.Item)
+                .Where(i => i.CategoryId == id)
+                .Select(i => i.Item)
+                .ToListAsync();
+            return items; 
+        }
+        public async Task<Category> GetById(int id)
+        {
+            return await context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public Task<bool> RemoveFromCategory(Item category, int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Update(Category category)
+        {
+            throw new NotImplementedException();
         }
     }
 }
